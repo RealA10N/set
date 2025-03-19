@@ -58,6 +58,25 @@ func (s Set[T]) Difference(other Set[T]) Set[T] {
 	return result
 }
 
+func (s Set[T]) Intersection(other Set[T]) Set[T] {
+	result := New[T]()
+	// Iterate over the smaller set for better performance
+	if len(other) < len(s) {
+		for value := range other {
+			if s.Contains(value) {
+				result.Add(value)
+			}
+		}
+	} else {
+		for value := range s {
+			if other.Contains(value) {
+				result.Add(value)
+			}
+		}
+	}
+	return result
+}
+
 func (s Set[T]) Equals(other Set[T]) bool {
 	if len(s) != len(other) {
 		return false

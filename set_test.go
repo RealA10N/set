@@ -100,6 +100,36 @@ func TestDifference(t *testing.T) {
 	assert.Empty(t, empty.Difference(s1).ToSlice())
 }
 
+func TestIntersection(t *testing.T) {
+	s1 := set.New[int]()
+	s1.Add(1)
+	s1.Add(2)
+	s1.Add(3)
+
+	s2 := set.New[int]()
+	s2.Add(2)
+	s2.Add(3)
+	s2.Add(4)
+
+	intersection := s1.Intersection(s2)
+	assert.ElementsMatch(t, intersection.ToSlice(), []int{2, 3})
+
+	// Test empty intersection
+	s3 := set.New[int]()
+	s3.Add(5)
+	s3.Add(6)
+	assert.Empty(t, s1.Intersection(s3).ToSlice())
+
+	// Test with empty set
+	empty := set.New[int]()
+	assert.Empty(t, s1.Intersection(empty).ToSlice())
+	assert.Empty(t, empty.Intersection(s1).ToSlice())
+
+	// Test with identical sets
+	s4 := s1.Copy()
+	assert.ElementsMatch(t, s1.Intersection(s4).ToSlice(), s1.ToSlice())
+}
+
 func TestEquals(t *testing.T) {
 	s1 := set.New[int]()
 	s1.Add(1)
