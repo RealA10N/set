@@ -42,3 +42,43 @@ func TestToSlice(t *testing.T) {
 
 	assert.ElementsMatch(t, s.ToSlice(), []int{1, 3})
 }
+
+func TestUnion(t *testing.T) {
+	s1 := set.New[int]()
+	s1.Add(1)
+	s1.Add(2)
+	s1.Add(3)
+
+	s2 := set.New[int]()
+	s2.Add(3)
+	s2.Add(4)
+	s2.Add(5)
+
+	union := s1.Union(s2)
+	assert.ElementsMatch(t, union.ToSlice(), []int{1, 2, 3, 4, 5})
+
+	// Test empty set union
+	empty := set.New[int]()
+	assert.ElementsMatch(t, s1.Union(empty).ToSlice(), s1.ToSlice())
+	assert.ElementsMatch(t, empty.Union(s1).ToSlice(), s1.ToSlice())
+}
+
+func TestDifference(t *testing.T) {
+	s1 := set.New[int]()
+	s1.Add(1)
+	s1.Add(2)
+	s1.Add(3)
+
+	s2 := set.New[int]()
+	s2.Add(2)
+	s2.Add(3)
+	s2.Add(4)
+
+	diff := s1.Difference(s2)
+	assert.ElementsMatch(t, diff.ToSlice(), []int{1})
+
+	// Test empty set difference
+	empty := set.New[int]()
+	assert.ElementsMatch(t, s1.Difference(empty).ToSlice(), s1.ToSlice())
+	assert.Empty(t, empty.Difference(s1).ToSlice())
+}
