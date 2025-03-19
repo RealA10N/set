@@ -6,6 +6,14 @@ func New[T comparable]() Set[T] {
 	return make(Set[T])
 }
 
+func (s Set[T]) Copy() Set[T] {
+	result := New[T]()
+	for value := range s {
+		result.Add(value)
+	}
+	return result
+}
+
 func (s Set[T]) Add(value T) {
 	s[value] = struct{}{}
 }

@@ -33,6 +33,23 @@ func Example() {
 	// length is 2
 }
 
+func TestCopy(t *testing.T) {
+	original := set.New[int]()
+	original.Add(1)
+	original.Add(2)
+	original.Add(3)
+
+	copied := original.Copy()
+
+	assert.ElementsMatch(t, copied.ToSlice(), original.ToSlice())
+
+	original.Add(4)
+	assert.NotContains(t, copied.ToSlice(), 4)
+
+	copied.Add(5)
+	assert.NotContains(t, original.ToSlice(), 5)
+}
+
 func TestToSlice(t *testing.T) {
 	s := set.New[int]()
 	s.Add(1)
