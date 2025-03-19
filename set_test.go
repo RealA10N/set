@@ -141,14 +141,15 @@ func TestIntersection(t *testing.T) {
 	s2.Add(3)
 	s2.Add(4)
 
-	intersection := s1.Intersection(s2)
-	assert.ElementsMatch(t, intersection.ToSlice(), []int{2, 3})
+	assert.ElementsMatch(t, s1.Intersection(s2).ToSlice(), []int{2, 3})
+	assert.ElementsMatch(t, s2.Intersection(s1).ToSlice(), []int{2, 3})
 
 	// Test empty intersection
 	s3 := set.New[int]()
 	s3.Add(5)
 	s3.Add(6)
 	assert.Empty(t, s1.Intersection(s3).ToSlice())
+	assert.Empty(t, s3.Intersection(s1).ToSlice())
 
 	// Test with empty set
 	empty := set.New[int]()
@@ -158,6 +159,7 @@ func TestIntersection(t *testing.T) {
 	// Test with identical sets
 	s4 := s1.Copy()
 	assert.ElementsMatch(t, s1.Intersection(s4).ToSlice(), s1.ToSlice())
+	assert.ElementsMatch(t, s4.Intersection(s1).ToSlice(), s1.ToSlice())
 }
 
 func TestEquals(t *testing.T) {
