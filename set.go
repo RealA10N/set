@@ -57,3 +57,15 @@ func (s Set[T]) Difference(other Set[T]) Set[T] {
 	}
 	return result
 }
+
+func (s Set[T]) Equals(other Set[T]) bool {
+	if len(s) != len(other) {
+		return false
+	}
+	for value := range s {
+		if !other.Contains(value) {
+			return false
+		}
+	}
+	return true
+}

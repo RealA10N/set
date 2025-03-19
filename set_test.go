@@ -99,3 +99,40 @@ func TestDifference(t *testing.T) {
 	assert.ElementsMatch(t, s1.Difference(empty).ToSlice(), s1.ToSlice())
 	assert.Empty(t, empty.Difference(s1).ToSlice())
 }
+
+func TestEquals(t *testing.T) {
+	s1 := set.New[int]()
+	s1.Add(1)
+	s1.Add(2)
+	s1.Add(3)
+
+	// Test equal sets
+	s2 := set.New[int]()
+	s2.Add(2)
+	s2.Add(1)
+	s2.Add(3)
+	assert.True(t, s1.Equals(s2))
+	assert.True(t, s2.Equals(s1))
+
+	// Test unequal sets with same length
+	s3 := set.New[int]()
+	s3.Add(1)
+	s3.Add(2)
+	s3.Add(4)
+	assert.False(t, s1.Equals(s3))
+	assert.False(t, s3.Equals(s1))
+
+	// Test unequal sets with different lengths
+	s4 := set.New[int]()
+	s4.Add(1)
+	s4.Add(2)
+	assert.False(t, s1.Equals(s4))
+	assert.False(t, s4.Equals(s1))
+
+	// Test with empty sets
+	empty1 := set.New[int]()
+	empty2 := set.New[int]()
+	assert.True(t, empty1.Equals(empty2))
+	assert.False(t, s1.Equals(empty1))
+	assert.False(t, empty1.Equals(s1))
+}
