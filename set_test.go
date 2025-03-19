@@ -33,6 +33,36 @@ func Example() {
 	// length is 2
 }
 
+func TestFromSlice(t *testing.T) {
+	// Test basic slice conversion
+	slice := []int{1, 2, 3, 4}
+	s := set.FromSlice(slice)
+	assert.Equal(t, 4, len(s))
+	for _, v := range slice {
+		assert.True(t, s.Contains(v))
+	}
+
+	// Test with duplicates
+	duplicates := []int{1, 2, 2, 3, 3, 3, 4, 4, 4, 4}
+	sDup := set.FromSlice(duplicates)
+	assert.Equal(t, 4, len(sDup))
+	assert.ElementsMatch(t, sDup.ToSlice(), []int{1, 2, 3, 4})
+
+	// Test with empty slice
+	empty := []int{}
+	sEmpty := set.FromSlice(empty)
+	assert.Equal(t, 0, len(sEmpty))
+	assert.Empty(t, sEmpty.ToSlice())
+
+	// Test with string slice
+	strSlice := []string{"a", "b", "c"}
+	sStr := set.FromSlice(strSlice)
+	assert.Equal(t, 3, len(sStr))
+	for _, v := range strSlice {
+		assert.True(t, sStr.Contains(v))
+	}
+}
+
 func TestCopy(t *testing.T) {
 	original := set.New[int]()
 	original.Add(1)

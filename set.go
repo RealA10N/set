@@ -6,6 +6,14 @@ func New[T comparable]() Set[T] {
 	return make(Set[T])
 }
 
+func FromSlice[T comparable](slice []T) Set[T] {
+	result := New[T]()
+	for _, value := range slice {
+		result.Add(value)
+	}
+	return result
+}
+
 func (s Set[T]) Copy() Set[T] {
 	result := New[T]()
 	for value := range s {
